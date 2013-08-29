@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Pay Da Hood</title>
+    <title>Under The Hood</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -15,7 +15,7 @@
       <!-- Convert to navbar? -->
       <div class="navbar">
         <div class="navbar-inner hoodie-accountbar">
-          <a class="brand" href="/">Pay Da Hood</a>
+          <a class="brand" href="/">Unde The Hood</a>
 
           <ul class="nav pull-right">
             <li class="hoodie-account-signedout pull-right">
@@ -66,56 +66,29 @@
       </div>
 
       <div class="row">
-        <div class="span12">
-          <form id="paymentForm" class="form-inline">
-            <input type="text" class="input-small" name="user" placeholder="User">
-            <input type="text" class="input-small" name="event" placeholder="Event">
-            <div class="input-append">
-              <input type="text" class="input-small" name="value" placeholder="0"><span class="add-on">€</span>
-            </div>
-            <button type="submit" class="btn">Add</button>
-          </form>
-        </div>
-      </div>
-
-      <div class="row">
         <div class="span6">
-          <h2>Open payments</h2>
-          <ul class="nav nav-tabs" id="paymentTabs">
-            <li class="active"><a href="#user">Users</a></li>
-            <li><a href="#event">Events</a></li>
-          </ul>
+          <h2>Blog posts</h2>
             
-          <div class="tab-content">
-            <div class="tab-pane active" id="user">
-              <table id="userPayments" class="table table-striped table-bordered table-hover table-condensed">
-                <thead>
-                  <tr><th>User</th><th>Open</th><th>Paied</th></tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
-            <div class="tab-pane" id="event">
-              <table id="eventPayments" class="table table-striped table-bordered table-hover table-condensed">
-                <thead>
-                  <tr><th>Event</th><th>Open</th><th>Paied</th></tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <ul id="blogPostList">
+          </ul>
         </div>
         <div class="span6">
-          <h2>Recently Paied</h2>
-          <table id="recentlyPaied" class="table table-striped table-bordered table-hover table-condensed">
-            <thead>
-              <tr><th>User</th><th>Event</th><th>Value</th><th>State</th></tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
+          <h2>Edit Blog Post</h2>
+          <form id="blogPostForm">
+            <fieldset>
+              <label>Title</label>
+              <input type="text" name="title" class="input-block-level" placeholder="Blog Post Title…">
+              <label>Text</label>
+              <textarea rows="10" name="text" class="input-block-level" placeholder="Blog Post Title…"></textarea>
+              <label>State</label>
+              <select name="state" class="input-block-level" size="1">
+                <option value="editing">In Progress</option>
+                <option value="published">Published</option>
+                <option value="archived">Archived</option>
+              </select>
+              <button type="submit" class="btn">Save</button>
+            </fieldset>
+          </form>
         </div>
       </div>
 

@@ -1,135 +1,49 @@
 // Initialize Hoodie
-var hoodie  = new Hoodie()
+var hoodie  = new Hoodie();
 
-// Initial load of all payment items from the store
-function refreshViews() {
-  hoodie.store.findAll('payment').then( function(payments) {
-    // Refresh Users view
-    renderAggregateView(
-      _.map(
-        _.groupBy(
-          payments,
-          function (payment) {
-            return payment.user;
-          }
-        ),
-        sumUpPayments
-      ),
-      "#userPayments"
-    );
+// Initial load of all todo items from the store
+hoodie.store.findAll('post').then( function(posts) {
+  posts.sort(function(a, b) {
+    return a.createdAt > b.createdAt;
+  }).forEach(appendPost);
+});
 
-    // Refresh Events view
-    renderAggregateView(
-      _.map(
-        _.groupBy(
-          payments,
-          function (payment) {
-            return payment.event;
-          }
-        ),
-        sumUpPayments
-      ),
-      "#eventPayments"
-    );
+// When a new todo gets stored, add it to the UI
+hoodie.store.on('add:post', appendPost)
 
-    // Refresh most recent paied view
-    renderPaymentsView(
-      _.sortBy(
-        _.filter(
-          payments,
-          function (payment) {
-            return payment.state === "paied";
-          }
-        ),
-        function (a, b) {
-          return a.createdAt - b.createdAt;
-        }
-      ),
-      "#recentlyPaied"
-    );
-  });
-}
-refreshViews();
-
-// When a new payment gets stored, add it to the UI
-hoodie.store.on('add:payment', refreshViews)
-// Clear payment list when the get wiped from store
+// Clear post list when the get wiped from store
 hoodie.account.on(
   'signout',
   function() {
-    $('#paymentTable tbody').html('');
+    $('#postList').html('');
   }
 );
 
-// Handle creating a new payment
-$('#paymentForm').on('submit', function(event) {
+// Handle creating a new post
+$('#blogPostForm').on('submit', function(event) {
   hoodie.store.add(
-    'payment', {
-      user:  $(event.target).find("input[name='user']").val(),
-      event: $(event.target).find("input[name='event']").val(),
-      value: parseFloat($(event.target).find("input[name='value']").val(), 10),
-      state: "open"
+    'post', {
+      title: $(event.target).find("input[name='title']").val(),
+      text:  $(event.target).find("textarea[name='text']").val(),
+      state: $(event.target).find("select[name='state']").val()
   });
 
-  $(event.target).find("input").val("");
+  $(event.target).find("input, textarea").val("");
 
   event.preventDefault();
   return false;
 });
 
-// Bootstrap code to activate tabs in view
-$('#paymentTabs a').click(function (event) {
-  $(this).tab('show');
-  event.preventDefault();
-  return false
-});
+function appendPost(post) {
+  var stateMap = {
+    editing: "pencil",
+    published: "ok",
+    archived: "off",
+  }
 
-function renderAggregateView(aggregatePayments, table) {
-  $(table + ' tbody').html("");
-  _.map(
-    aggregatePayments,
-    function(aggregatePayment) {
-      $(table + ' tbody').append('<tr>' +
-        '<td>' + aggregatePayment.name + '</td>' +
-        '<td>' + aggregatePayment.open.toFixed(2) + '€</td>' +
-        '<td>' + aggregatePayment.paied.toFixed(2) + '€</td>' +
-      '</tr>');
-    }
-  );
-}
-
-function renderPaymentsView(payments, table) {
-  $(table + ' tbody').html("");
-  _.map(
-    payments,
-    function(payment) {
-      $(table + ' tbody').append('<tr>' +
-        '<td>' + payment.user + '</td>' +
-        '<td>' + payment.event + '</td>' +
-        '<td>' + payment.value.toFixed(2) + '€</td>' +
-        '<td class="' + payment.state + '">' + payment.state + '</td>' +
-      '</tr>');
-    }
-  );
-}
-
-function sumUpPayments(payments, context) {
-  return _.reduce(
-    _.flatten(
-      _.toArray(
-        _.groupBy(
-          payments,
-            function (payment) {
-            return payment.state;
-          }
-        )
-      )
-    ),
-    function (result, payment) {
-      result[payment.state] += payment.value;
-      return result;
-    },
-    {name: context, open: 0, paied: 0}
-  );
+  $('#blogPostList').prepend('<li>' +
+    '<i class="icon icon-' + stateMap[post.state] + '"></i>' +
+    '<strong>' + post.title + '</strong> ' +
+  '</li>');
 }
 
