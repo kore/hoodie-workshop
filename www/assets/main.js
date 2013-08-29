@@ -2,11 +2,15 @@
 var hoodie  = new Hoodie();
 
 // Initial load of all todo items from the store
-hoodie.store.findAll('post').then( function(posts) {
-  posts.sort(function(a, b) {
-    return a.createdAt > b.createdAt;
-  }).forEach(appendPost);
-});
+function refreshList() {
+  hoodie.store.findAll('post').then( function(posts) {
+    $('#blogPostList').html('');
+    posts.sort(function(a, b) {
+      return a.createdAt > b.createdAt;
+    }).forEach(appendPost);
+  });
+}
+refreshList();
 
 // When a new todo gets stored, add it to the UI
 hoodie.store.on('add:post', appendPost)
@@ -15,7 +19,7 @@ hoodie.store.on('add:post', appendPost)
 hoodie.account.on(
   'signout',
   function() {
-    $('#postList').html('');
+    $('#blogPostList').html('');
   }
 );
 
@@ -28,6 +32,8 @@ $('#blogPostForm').on('submit', function(event) {
         text:  $(event.target).find("textarea[name='text']").val(),
         state: $(event.target).find("select[name='state']").val()
     });
+
+    refreshList();
   } else {
     hoodie.store.add(
       'post', {
@@ -52,8 +58,9 @@ function appendPost(post) {
 
   listItem = $('#blogPostList').prepend('<li>' +
     '<i class="icon icon-' + stateMap[post.state] + '"></i>' +
-    ' <a data-id="' + post.id + '" href="#">' + post.title + '</a> ' +
+    ' <a class="edit" data-id="' + post.id + '" href="#">' + post.title + '</a> ' +
     ' at ' + post.createdAt +
+    ' <button class="btn btn-mini btn-danger" data-id="' + post.id + '"><i class="icon icon-remove"></i></a>' +
   '</li>');
 
   $(listItem).find("a").unbind("click").bind("click", function (event) {
@@ -62,6 +69,15 @@ function appendPost(post) {
       $("#blogPostForm input[name='title']").val(post.title);
       $("#blogPostForm textarea[name='text']").val(post.text);
       $("#blogPostForm select[name='state']").val(post.state);
+    });
+
+    event.preventDefault();
+    return false;
+  });
+
+  $(listItem).find("button").unbind("click").bind("click", function (event) {
+    hoodie.store.remove("post", String($(event.target).data("id"))).done(function () {
+      refreshList();
     });
 
     event.preventDefault();
