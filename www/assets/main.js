@@ -1,15 +1,15 @@
 // initialize Hoodie
 var hoodie  = new Hoodie()
 
-// initial load of all todo items from the store
-hoodie.store.findAll('todo').then( function(todos) {
-  todos.sort( sortByCreatedAt ).forEach( addTodo )
+// initial load of all payment items from the store
+hoodie.store.findAll('payment').then( function(payments) {
+  payments.sort( sortByCreatedAt ).forEach( addPayment )
 })
 
-// when a new todo gets stored, add it to the UI
-hoodie.store.on('add:todo', addTodo)
-// clear todo list when the get wiped from store
-hoodie.account.on('signout', clearTodos)
+// when a new payment gets stored, add it to the UI
+hoodie.store.on('add:payment', addPayment)
+// clear payment list when the get wiped from store
+hoodie.account.on('signout', clearPayments)
 
 // handle creating a new task
 $('#paymentForm').on('submit', function(event) {
@@ -17,7 +17,8 @@ $('#paymentForm').on('submit', function(event) {
     'payment', {
       user:  $(event.target).find("input[name='user']").val(),
       event: $(event.target).find("input[name='event']").val(),
-      value: parseInt($(event.target).find("input[name='value']").val(), 10)
+      value: parseFloat($(event.target).find("input[name='value']").val(), 10),
+      state: "open"
   });
 
   $(event.target).find("input").val("");
@@ -26,11 +27,16 @@ $('#paymentForm').on('submit', function(event) {
   return false;
 })
 
-function addTodo( todo ) { 
-  $('#todolist').append('<li>'+todo.title+'</li>');
+function addPayment( payment ) { 
+  $('#paymentTable tbody').append('<tr>' +
+    '<td>' + payment.user + '</td>' +
+    '<td>' + payment.event + '</td>' +
+    '<td>' + payment.value.toFixed(2) + '</td>' +
+    '<td class="' + payment.state + '">' + payment.state + '</td>' +
+  '</tr>');
 }
-function clearTodos() {
-  $('#todolist').html('');
+function clearPayments() {
+  $('#paymentTable tbody').html('');
 }
 function sortByCreatedAt(a, b) { 
   return a.createdAt > b.createdAt
