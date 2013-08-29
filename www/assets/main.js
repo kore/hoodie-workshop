@@ -21,12 +21,21 @@ hoodie.account.on(
 
 // Handle creating a new post
 $('#blogPostForm').on('submit', function(event) {
-  hoodie.store.add(
-    'post', {
-      title: $(event.target).find("input[name='title']").val(),
-      text:  $(event.target).find("textarea[name='text']").val(),
-      state: $(event.target).find("select[name='state']").val()
-  });
+  if (id = $(event.target).find("input[name='id']").val()) {
+    hoodie.store.update(
+      'post', id, {
+        title: $(event.target).find("input[name='title']").val(),
+        text:  $(event.target).find("textarea[name='text']").val(),
+        state: $(event.target).find("select[name='state']").val()
+    });
+  } else {
+    hoodie.store.add(
+      'post', {
+        title: $(event.target).find("input[name='title']").val(),
+        text:  $(event.target).find("textarea[name='text']").val(),
+        state: $(event.target).find("select[name='state']").val()
+    });
+  }
 
   $(event.target).find("input, textarea").val("");
 
@@ -41,9 +50,22 @@ function appendPost(post) {
     archived: "off",
   }
 
-  $('#blogPostList').prepend('<li>' +
+  listItem = $('#blogPostList').prepend('<li>' +
     '<i class="icon icon-' + stateMap[post.state] + '"></i>' +
-    '<strong>' + post.title + '</strong> ' +
+    ' <a data-id="' + post.id + '" href="#">' + post.title + '</a> ' +
+    ' at ' + post.createdAt +
   '</li>');
+
+  $(listItem).find("a").unbind("click").bind("click", function (event) {
+    hoodie.store.find("post", String($(event.target).data("id"))).done(function (post) {
+      $("#blogPostForm input[name='id']").val(post.id);
+      $("#blogPostForm input[name='title']").val(post.title);
+      $("#blogPostForm textarea[name='text']").val(post.text);
+      $("#blogPostForm select[name='state']").val(post.state);
+    });
+
+    event.preventDefault();
+    return false;
+  });
 }
 

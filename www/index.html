@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html class="no-js">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Under The Hood</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
 
-    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/main.css">
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/main.css" />
   </head>
   <body>
     <div class="container">
@@ -60,9 +60,9 @@
                   <li><a href="#" data-hoodie-action="signout">Sign out</a></li>
                 </ul>
               </span>
-            </div><!-- /.hoodie-account-error -->
-          </li><!--/hoodieAccountBar -->
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div class="row">
@@ -76,8 +76,9 @@
           <h2>Edit Blog Post</h2>
           <form id="blogPostForm">
             <fieldset>
+              <input type="hidden" name="id" />
               <label>Title</label>
-              <input type="text" name="title" class="input-block-level" placeholder="Blog Post Title…">
+              <input type="text" name="title" class="input-block-level" placeholder="Blog Post Title…" />
               <label>Text</label>
               <textarea rows="10" name="text" class="input-block-level" placeholder="Blog Post Title…"></textarea>
               <label>State</label>
