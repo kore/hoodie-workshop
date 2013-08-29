@@ -81,7 +81,35 @@
       <div class="row">
         <div class="span6">
           <h2>Open payments</h2>
-          <table id="paymentTable" class="table table-striped table-bordered table-hover table-condensed">
+          <ul class="nav nav-tabs" id="paymentTabs">
+            <li class="active"><a href="#user">Users</a></li>
+            <li><a href="#event">Events</a></li>
+          </ul>
+            
+          <div class="tab-content">
+            <div class="tab-pane active" id="user">
+              <table id="userPayments" class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                  <tr><th>User</th><th>Open</th><th>Paied</th></tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+            <div class="tab-pane" id="event">
+              <table id="eventPayments" class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                  <tr><th>Event</th><th>Open</th><th>Paied</th></tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="span6">
+          <h2>Recently Paied</h2>
+          <table id="recentlyPaied" class="table table-striped table-bordered table-hover table-condensed">
             <thead>
               <tr><th>User</th><th>Event</th><th>Value</th><th>State</th></tr>
             </thead>
@@ -89,13 +117,10 @@
             </tbody>
           </table>
         </div>
-        <div class="span6">
-          <h2>Recently Paied</h2>
-        </div>
       </div>
 
       <footer class="copy">
-        <p>&hearts; hood.ie 2013</p>
+        <p>&hearts; <a href="http://hood.ie">hood.ie</a> 2013</p>
       </footer>
     </div>
 
@@ -105,6 +130,7 @@
     <script src="assets/vendor/hoodie.js"></script>
     <script src="assets/vendor/hoodie.accountbar.bootstrap.js"></script>
     <script src="assets/vendor/bootstrap.modalform.js"></script>
+    <script src="assets/vendor/underscore-min.js"></script>
     <script src="assets/main.js"></script>
   </body>
 </html>
