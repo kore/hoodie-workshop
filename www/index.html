@@ -67,8 +67,14 @@
 
       <div class="row">
         <div class="span12">
-          Create new payment…
-          <input type="text" id="todoinput"  placeholder="new todo ↵" />
+          <form id="paymentForm" class="form-inline">
+            <input type="text" class="input-small" name="user" placeholder="User">
+            <input type="text" class="input-small" name="event" placeholder="Event">
+            <div class="input-append">
+              <input type="text" class="input-small" name="value" placeholder="0"><span class="add-on">€</span>
+            </div>
+            <button type="submit" class="btn">Add</button>
+          </form>
         </div>
       </div>
 

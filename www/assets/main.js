@@ -12,11 +12,18 @@ hoodie.store.on('add:todo', addTodo)
 hoodie.account.on('signout', clearTodos)
 
 // handle creating a new task
-$('#todoinput').on('keypress', function(event) {
-  if (event.keyCode == 13) { // ENTER
-    hoodie.store.add('todo', {title: event.target.value});
-    event.target.value = '';
-  }
+$('#paymentForm').on('submit', function(event) {
+  hoodie.store.add(
+    'payment', {
+      user:  $(event.target).find("input[name='user']").val(),
+      event: $(event.target).find("input[name='event']").val(),
+      value: parseInt($(event.target).find("input[name='value']").val(), 10)
+  });
+
+  $(event.target).find("input").val("");
+
+  event.preventDefault(false);
+  return false;
 })
 
 function addTodo( todo ) { 
