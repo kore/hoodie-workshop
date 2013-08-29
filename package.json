@@ -1,0 +1,17 @@
+{
+  "name": "jsdays-test",
+  "version": "1.0.0",
+  "type": "app",
+  "dependencies": {
+    "hoodie-app": "git://github.com/hoodiehq/hoodie-server.git",
+    "hoodie-worker-users": "git://github.com/hoodiehq/worker-users.git"
+  },
+  "subdomain": "hoodie-jsdays-test",
+  "domains": [
+    "admin.hoodie-jsdays-test.jit.su",
+    "couch.hoodie-jsdays-test.jit.su"
+  ],
+  "scripts": {
+    "start": "node node_modules/hoodie-app/bin/start"
+  }
+}
