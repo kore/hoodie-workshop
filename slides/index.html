@@ -175,8 +175,58 @@ Talk structure:
 
 <section data-markdown>
 ## Hood.ie Plugin Architecture
-* Foo
-* Bar
+* Frontend creates a "Task"
+* Tasks gets synced to the CouchDB
+* Node.JS worker listens on new tasks
+</section>
+<section>
+    <h2>Create new Task</h2>
+    <pre>
+        <code data-trim contenteditable>
+hoodie.task.start(
+    'message',
+    {
+        to: 'joe',
+        text: 'Party machen?'
+    }
+);
+[…]
+hoodie.task.on(
+    'success:message',
+    function (completedMessageTask, options) {}
+);
+        </code>
+    </pre>
+</section>
+<section>
+    <h2>Mail Worker</h2>
+    <pre>
+        <code data-trim contenteditable>
+module.exports = function (hoodie, doneCallback) {
+
+    hoodie.task.on('add:email', handleNewEmail)
+
+    function handleNewEmail(dbName, email) {
+        hoodie.sendEmail(email, function (error) {
+            if (error) {
+                hoodie.task.error(dbName, email, error);
+                return;
+            }
+
+            hoodie.task.success(dbName, email);
+        })
+    }
+
+    doneCallback();
+};
+        </code>
+    </pre>
+
+</section>
+<section data-markdown>
+## Extending the backend
+* CouchDB _changes feed for platform independent extensions
+* Plugins/Workers for Node.JS extensions
 </section>
 <section>
     <h1>Questions? Comments!</h1>
