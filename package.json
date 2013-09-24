@@ -4,7 +4,11 @@
   "type": "app",
   "dependencies": {
     "hoodie-app": "git://github.com/hoodiehq/hoodie-server.git",
-    "hoodie-worker-users": "git://github.com/hoodiehq/worker-users.git"
+    "hoodie-worker-users": "git://github.com/hoodiehq/worker-users.git",
+    "marked": "*",
+    "follow": "*",
+    "request": "*",
+    "underscore": "*"
   },
   "subdomain": "hoodie-jsdays-test",
   "domains": [
