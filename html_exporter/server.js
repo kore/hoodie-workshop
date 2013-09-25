@@ -5,15 +5,16 @@ var marked = require('marked'),
     follow = require('follow');
 
 // create the output directory
-if(!fs.existsSync("post")) {
-    fs.mkdirSync("post");
+if(!fs.existsSync("output")) {
+    fs.mkdirSync("output");
+    fs.mkdirSync("output/user");
 }
 
-// user index
-// user seperation
-// index files
-// ausgabe
-// datieen löschen
+// [ ] user index
+// [x] user seperation
+// [ ] post index
+// [ ] ausgabe
+// [x] datieen löschen
 
 var couchUrl = 'http://admin:telnet@localhost:5984';
 
@@ -29,6 +30,11 @@ request(couchUrl + '/_all_dbs', function (error, response, body) {
 });
 
 function monitorUserDatabase(database) {
+    if(!fs.existsSync("output/" + database)) {
+        fs.mkdirSync("output/" + database);
+        fs.mkdirSync("output/" + database + "/post");
+    }
+
     request(
         couchUrl + '/' + encodeURIComponent(database) + '/_all_docs',
         function(error, response, body) {
@@ -70,7 +76,7 @@ function monitorUserDatabase(database) {
 }
 
 function getPostFilename(database, documentId) {
-    return documentId + '.html';
+    return 'output/' + database + '/' +  documentId + '.html';
 }
 
 function deletePost(database, documentId) {
