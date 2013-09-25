@@ -166,12 +166,52 @@ Talk structure:
 </section>
 
 <section data-markdown>
-## Introduction to CouchDB
+# CouchDB
+</section>
 
-* HTTP
-* Wannabe-REST
-* Authentication
-* _changes
+<section data-markdown>
+## Document Database
+
+* Random JSON structures (documents)
+* Indexes on all properties in those documents work
+* File attachments possible
+</section>
+
+<section data-markdown>
+## HTTP
+
+* Seems broken for a database, but:
+  * Support in all languages exist
+  * Command line debugging
+  * Re-use all your HTTP tools (load balancer, proxies, …)
+</section>
+
+<section data-markdown>
+## RESTful
+
+* Using common HTTP verbs to access data
+* GET/POST/PUT/DELETE http://localhost:5984/database/document/attachment
+</section>
+
+<section data-markdown>
+## Authentification / Authorization
+
+* Supports HTTP Digest auth
+  * Just use http://user:password@localhost:5984/
+  * Also supports Cookie / OAuth, but …
+* Granular permissions on server / database / document level possible
+</section>
+
+<section data-markdown>
+## Changes Feed
+
+* Lists all changes to a database:
+  * http://localhost:5984/database/_changes
+  * http://localhost:5984/database/_changes?feed=longpoll&amp;since=1
+</section>
+
+<section data-markdown>
+# Extend It
 </section>
 
 <section data-markdown>
@@ -231,9 +271,15 @@ module.exports = function (hoodie, doneCallback) {
 * CouchDB _changes feed for platform independent extensions
 * Plugins/Workers for Node.JS extensions
 </section>
+
+<section data-markdown>
+# Demo
+</section>
+
 <section>
     <h1>Questions? Comments!</h1>
 </section>
+
 <section>
     <h1>Thanks!</h1>
     <p>
