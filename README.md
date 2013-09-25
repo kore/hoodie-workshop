@@ -1,5 +1,8 @@
 # Hoodie Workshop
 
+The example application is a small blog management tool and a server side node
+script, which generates the corresponding (ugly) HTML for the published blog.
+
 ## Installation
 
 Please refer to the [install guides for OS X, Linux and Windows](http://hood.ie/#installation).
@@ -13,6 +16,10 @@ For installation of the required dependencies run:
 To start the demo application, just type:
 
     $ hoodie start
+
+Running the server-side node application:
+
+    $ node html_exporter/server.js
 
 ## Presentation
 
