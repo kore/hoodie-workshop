@@ -5,3 +5,8 @@
 .reveal pre code {
     background: none;
 }
+
+.reveal sup,
+.reveal sub {
+    font-size: 70%;
+}
