@@ -10,9 +10,9 @@ if(!fs.existsSync("output")) {
     fs.mkdirSync("output/user");
 }
 
-// [ ] user index
+// [x] user index
 // [x] user seperation
-// [ ] post index
+// [x] post index
 // [ ] ausgabe
 // [x] datieen löschen
 
@@ -33,7 +33,19 @@ request(couchUrl + '/_users/_all_docs?include_docs=true', function (error, respo
         return user.database;
     });
 
-    userDatabases.forEach(monitorUserDatabase);
+    fs.writeFile(
+        'output/index.html',
+        usersWithDatabases.map(
+            function(user) {
+                return '<a href="' + user.database + '/index.html">' + user.name + '</a>';
+            }
+        ).join('<br>')
+    );
+
+    usersWithDatabases.forEach(function(user) {
+        generateUserPostIndex(user, user.database);
+        monitorUserDatabase(user.database);
+    });
 });
 
 function monitorUserDatabase(database) {
@@ -63,6 +75,7 @@ function monitorUserDatabase(database) {
             });
         }
     );
+
     follow(
         {
             db:couchUrl + '/' + encodeURIComponent(database),
@@ -102,6 +115,31 @@ function renderPost(database, documentId) {
             } else {
                 deletePost(database, documentId);
             }
+        }
+    );
+}
+
+function generateUserPostIndex(user) {
+    request(
+        couchUrl + '/' + encodeURIComponent(user.database) + '/_all_docs?include_docs=true',
+        function(error, response, body) {
+            var response,
+                publishedPostDocuments;
+
+            response = JSON.parse(body);
+            publishedPostDocuments = response.rows.filter(function(row) {
+                return row.doc.type === 'post'
+                    && row.doc.state === 'published';
+            });
+
+            fs.writeFile(
+                'output/' + user.database + '/index.html',
+                publishedPostDocuments.map(
+                    function(post) {
+                        return '<a href="' + post.doc._id + '.html">' + post.doc.title + '</a>';
+                    }
+                ).join('<br>')
+            );
         }
     );
 }
