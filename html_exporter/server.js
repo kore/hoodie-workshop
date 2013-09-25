@@ -44,11 +44,12 @@ request(couchUrl + '/_users/_all_docs?include_docs=true', function (error, respo
 
     usersWithDatabases.forEach(function(user) {
         generateUserPostIndex(user, user.database);
-        monitorUserDatabase(user.database);
+        monitorUserDatabase(user);
     });
 });
 
-function monitorUserDatabase(database) {
+function monitorUserDatabase(user) {
+    var database = user.database;
     if(!fs.existsSync("output/" + database)) {
         fs.mkdirSync("output/" + database);
         fs.mkdirSync("output/" + database + "/post");
@@ -90,6 +91,8 @@ function monitorUserDatabase(database) {
                 } else {
                     renderPost(database, change.id)
                 }
+
+                generateUserPostIndex(user);
             }
         }
     );
@@ -105,18 +108,23 @@ function deletePost(database, documentId) {
     }
 }
 
+
 function renderPost(database, documentId) {
     request(
         couchUrl + '/' + encodeURIComponent(database) + '/' + encodeURIComponent(documentId),
         function(error, response, body) {
             var doc = JSON.parse(body);
             if(doc.state === 'published') {
-                fs.writeFile(getPostFilename(database, documentId), marked(doc.text));
+                fs.writeFile(getPostFilename(database, documentId), getPostHtml(doc));
             } else {
                 deletePost(database, documentId);
             }
         }
     );
+}
+
+function getPostHtml(post) {
+    return '<h1>' + post.title + '</h1>' + marked(post.text);
 }
 
 function generateUserPostIndex(user) {
