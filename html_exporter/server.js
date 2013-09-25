@@ -18,12 +18,19 @@ if(!fs.existsSync("output")) {
 
 var couchUrl = 'http://admin:telnet@localhost:5984';
 
-request(couchUrl + '/_all_dbs', function (error, response, body) {
-    var databases = JSON.parse(body),
+request(couchUrl + '/_users/_all_docs?include_docs=true', function (error, response, body) {
+    var users = JSON.parse(body).rows.map(function(row) {
+         return row.doc;
+        }),
+        usersWithDatabases,
         userDatabases;
 
-    userDatabases = databases.filter(function(database) {
-        return database.substring(0, 5) === 'user/';
+    usersWithDatabases = users.filter(function(user) {
+        return typeof user.database === 'string';
+    });
+
+    userDatabases = usersWithDatabases.map(function(user) {
+        return user.database;
     });
 
     userDatabases.forEach(monitorUserDatabase);
