@@ -76,18 +76,18 @@
           <h2>Edit Blog Post</h2>
           <form id="blogPostForm">
             <fieldset>
-              <input type="hidden" name="id" />
+              <input disabled type="hidden" name="id" />
               <label>Title</label>
-              <input type="text" name="title" class="input-block-level" placeholder="Blog Post Title…" />
+              <input disabled type="text" name="title" class="input-block-level" placeholder="Blog Post Title…" />
               <label>Text</label>
-              <textarea rows="10" name="text" class="input-block-level" placeholder="Blog Post Content…"></textarea>
+              <textarea disabled rows="10" name="text" class="input-block-level" placeholder="Blog Post Content…"></textarea>
               <label>State</label>
-              <select name="state" class="input-block-level" size="1">
+              <select disabled name="state" class="input-block-level" size="1">
                 <option value="editing">In Progress</option>
                 <option value="published">Published</option>
                 <option value="archived">Archived</option>
               </select>
-              <button type="submit" class="btn">Save</button>
+              <button disabled type="submit" class="btn">Save</button>
             </fieldset>
           </form>
         </div>

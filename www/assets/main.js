@@ -17,9 +17,17 @@ hoodie.store.on('add:post', appendPost)
 
 // Clear post list when the get wiped from store
 hoodie.account.on(
+  'signin',
+  function() {
+    $('#blogPostForm').find('input, select, button, textarea').prop('disabled', false);
+  }
+);
+
+hoodie.account.on(
   'signout',
   function() {
     $('#blogPostList').html('');
+    $('#blogPostForm').find('input, select, button, textarea').prop('disabled', true);
   }
 );
 
