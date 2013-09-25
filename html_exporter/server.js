@@ -9,6 +9,12 @@ if(!fs.existsSync("post")) {
     fs.mkdirSync("post");
 }
 
+// user index
+// user seperation
+// index files
+// ausgabe
+// datieen löschen
+
 var couchUrl = 'http://admin:telnet@localhost:5984';
 
 request(couchUrl + '/_all_dbs', function (error, response, body) {
@@ -53,10 +59,24 @@ function monitorUserDatabase(database) {
         },
         function(error, change) {
             if(change.id.substring(0, 5) === 'post/') {
-                renderPost(database, change.id)
+                if(change.deleted === 'true') {
+                    deletePost(database, documentId);
+                } else {
+                    renderPost(database, change.id)
+                }
             }
         }
     );
+}
+
+function getPostFilename(database, documentId) {
+    return documentId + '.html';
+}
+
+function deletePost(database, documentId) {
+    if(fs.existsSync(getPostFilename(database, documentId))) {
+        fs.unlinkSync(getPostFilename(database, documentId));
+    }
 }
 
 function renderPost(database, documentId) {
@@ -65,9 +85,9 @@ function renderPost(database, documentId) {
         function(error, response, body) {
             var doc = JSON.parse(body);
             if(doc.state === 'published') {
-                fs.writeFile(doc._id  + '.html', marked(doc.text));
+                fs.writeFile(getPostFilename(database, documentId), marked(doc.text));
             } else {
-                // remove file
+                deletePost(database, documentId);
             }
         }
     );
