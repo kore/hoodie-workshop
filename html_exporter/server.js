@@ -16,7 +16,7 @@ if(!fs.existsSync("output")) {
 // [ ] ausgabe
 // [x] datieen löschen
 
-var couchUrl = 'http://admin:telnet@localhost:5984';
+var couchUrl = 'http://admin:admin@localhost:6003';
 
 request(couchUrl + '/_users/_all_docs?include_docs=true', function (error, response, body) {
     var users = JSON.parse(body).rows.map(function(row) {
