@@ -10,3 +10,7 @@
 .reveal sub {
     font-size: 70%;
 }
+
+footer.quote-source {
+    padding-top: 2em;
+}
