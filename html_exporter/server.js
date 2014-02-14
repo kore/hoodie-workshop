@@ -103,7 +103,7 @@ function renderPost(database, documentId) {
             if(doc.state === 'published') {
                 doc.text = marked(doc.text)
                 blogUtils.writeFileWithTemplate(
-                    getPostFilename(database, documentId)+'foo.html',
+                    getPostFilename(database, documentId),
                     'post',
                     doc
                 )
@@ -134,7 +134,7 @@ function generateUserPostIndex(user) {
             blogUtils.writeFileWithTemplate(
                 'output/' + user.database + '/index.html',
                 'post_list',
-                {posts: publishedPostDocuments}
+                {user: user, posts: publishedPostDocuments}
             );
         }
     );

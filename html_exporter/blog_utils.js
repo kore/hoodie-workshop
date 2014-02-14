@@ -37,7 +37,7 @@ exports.deleteFile = function(pathToFile) {
  * @param data data to use
  */
 exports.writeFileWithTemplate = function(pathToFile, templateFile, data) {
-    var template = handlebars.compile(
+    var contentTemplate = handlebars.compile(
         fs.readFileSync(
             'templates/' + templateFile + '.html',
             {
@@ -46,5 +46,14 @@ exports.writeFileWithTemplate = function(pathToFile, templateFile, data) {
         )
     );
 
-    fs.writeFile(pathToFile, template(data));
+    var layoutTemplate = handlebars.compile(
+        fs.readFileSync(
+            'templates/layout.html',
+            {
+                encoding: 'utf8'
+            }
+        )
+    );
+
+    fs.writeFile(pathToFile, layoutTemplate({content: contentTemplate(data)}));
 };
