@@ -15,7 +15,6 @@ Workshop.List.prototype.clear = function() {
 
 Workshop.List.prototype.appendPost = function(post) {
     this.posts.push(post);
-    console.log(this.posts);
     this.render();
 };
 
