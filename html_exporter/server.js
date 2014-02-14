@@ -6,11 +6,6 @@ var marked = require('marked'),
 // create the output directory
 blogUtils.mkdirRecursive('output/user');
 
-// [x] user index
-// [x] user seperation
-// [x] post index
-// [ ] ausgabe
-// [x] datieen löschen
 var couchAdminPass = 'admin';
 if(process.env.COUCH_ADMIN_PASS) {
     couchAdminPass = process.env.COUCH_ADMIN_PASS;
@@ -112,10 +107,6 @@ function renderPost(database, documentId) {
             }
         }
     );
-}
-
-function getPostHtml(post) {
-    return '<h1>' + post.title + '</h1>' + marked(post.text);
 }
 
 function generateUserPostIndex(user) {
