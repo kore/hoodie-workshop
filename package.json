@@ -7,7 +7,7 @@
     "hoodie-plugin-appconfig": "~0.1.0",
     "hoodie-plugin-email": "~0.1.1",
     "hoodie-plugin-game": "0.2.1",
-    "hoodie-plugin-users": "0.0.9"
+    "hoodie-plugin-users": "0.1.0"
   },
   "subdomain": "hoodie-jsdays-test",
   "domains": [
