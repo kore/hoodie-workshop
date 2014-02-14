@@ -4,8 +4,14 @@ var hoodie = new Hoodie(),
 
 // Initial load of all todo items from the store
 function refreshList() {
+    if (!hoodie.account.username) {
+        return;
+    }
+
     hoodie.store.findAll('post').then( function(posts) {
         list.clear();
+        Workshop.Form.activate();
+
         posts.sort(function(a, b) {
             return a.createdAt > b.createdAt;
         }).forEach(function (post) {
@@ -21,11 +27,12 @@ hoodie.store.on('add:post', function(post) {
 });
 
 // Clear post list when the get wiped from store
-hoodie.account.on('signin reauthenticated', function() {
+hoodie.account.on('signin signup authenticated reauthenticated', function() {
+    console.log("Activate");
     Workshop.Form.activate();
 });
 
-hoodie.account.on('signout', function() {
+hoodie.account.on('signout unauthenticated', function() {
     list.clear();
     Workshop.Form.clear();
     Workshop.Form.deactivate();
