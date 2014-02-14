@@ -2,13 +2,11 @@ var marked = require('marked'),
     request = require('request'),
     fs = require('fs'),
     _ = require('underscore')
-    follow = require('follow');
+    follow = require('follow')
+    blogUtils = require('./blog_utils');
 
 // create the output directory
-if(!fs.existsSync("output")) {
-    fs.mkdirSync("output");
-    fs.mkdirSync("output/user");
-}
+blogUtils.mkdirRecursive('output/user');
 
 // [x] user index
 // [x] user seperation
@@ -52,10 +50,7 @@ request(couchUrl + '/_users/_all_docs?include_docs=true', function (error, respo
 
 function monitorUserDatabase(user) {
     var database = user.database;
-    if(!fs.existsSync("output/" + database)) {
-        fs.mkdirSync("output/" + database);
-        fs.mkdirSync("output/" + database + "/post");
-    }
+    blogUtils.mkdirRecursive("output/" + database + "/post")
 
     request(
         couchUrl + '/' + encodeURIComponent(database) + '/_all_docs',
@@ -105,9 +100,7 @@ function getPostFilename(database, documentId) {
 }
 
 function deletePost(database, documentId) {
-    if(fs.existsSync(getPostFilename(database, documentId))) {
-        fs.unlinkSync(getPostFilename(database, documentId));
-    }
+    blogUtils.deleteFile(getPostFilename(database, documentId));
 }
 
 
