@@ -15,9 +15,11 @@ if(!fs.existsSync("output")) {
 // [x] post index
 // [ ] ausgabe
 // [x] datieen löschen
-
-var couchUrl = 'http://admin:admin@localhost:6003';
-
+var couchAdminPass = 'admin';
+if(process.env.COUCH_ADMIN_PASS) {
+    couchAdminPass = process.env.COUCH_ADMIN_PASS;
+}
+var couchUrl = 'http://admin:' + couchAdminPass + '@localhost:5984';
 request(couchUrl + '/_users/_all_docs?include_docs=true', function (error, response, body) {
     var users = JSON.parse(body).rows.map(function(row) {
          return row.doc;
