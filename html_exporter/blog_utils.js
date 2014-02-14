@@ -2,6 +2,10 @@ var path = require('path'),
     fs = require('fs'),
     handlebars = require('handlebars');
 
+handlebars.registerHelper('username', function(username) {
+    return username.substr(5);
+});
+
 /**
  * Recursively creates a directory.
  *
