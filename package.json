@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "type": "app",
   "dependencies": {
-    "hoodie-server": "0.9.12",
+    "hoodie-server": "0.9.13",
     "hoodie-plugin-appconfig": "~0.1.0",
-    "hoodie-plugin-email": "~0.1.4",
-    "hoodie-plugin-users": "0.0.9",
     "handlebars": "~2.0.0-alpha.1"
+    "hoodie-plugin-email": "~0.1.1",
+    "hoodie-plugin-game": "0.2.1",
+    "hoodie-plugin-users": "0.1.0"
   },
   "subdomain": "hoodie-jsdays-test",
   "domains": [
@@ -21,6 +22,7 @@
     "plugins": [
       "hoodie-plugin-appconfig",
       "hoodie-plugin-email",
+      "hoodie-plugin-game",
       "hoodie-plugin-users"
     ]
   }
