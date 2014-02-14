@@ -1,10 +1,8 @@
 var marked = require('marked'),
     request = require('request'),
-    fs = require('fs'),
-    _ = require('underscore')
-    follow = require('follow')
+    _ = require('underscore'),
+    follow = require('follow'),
     blogUtils = require('./blog_utils');
-
 // create the output directory
 blogUtils.mkdirRecursive('output/user');
 
@@ -22,24 +20,17 @@ request(couchUrl + '/_users/_all_docs?include_docs=true', function (error, respo
     var users = JSON.parse(body).rows.map(function(row) {
          return row.doc;
         }),
-        usersWithDatabases,
-        userDatabases;
+        usersWithDatabases;
 
     usersWithDatabases = users.filter(function(user) {
         return typeof user.database === 'string';
     });
 
-    userDatabases = usersWithDatabases.map(function(user) {
-        return user.database;
-    });
 
-    fs.writeFile(
+    blogUtils.writeFileWithTemplate(
         'output/index.html',
-        usersWithDatabases.map(
-            function(user) {
-                return '<a href="' + user.database + '/index.html">' + user.name + '</a>';
-            }
-        ).join('<br>')
+        'blog_list',
+        {users: usersWithDatabases}
     );
 
     usersWithDatabases.forEach(function(user) {
@@ -110,7 +101,12 @@ function renderPost(database, documentId) {
         function(error, response, body) {
             var doc = JSON.parse(body);
             if(doc.state === 'published') {
-                fs.writeFile(getPostFilename(database, documentId), getPostHtml(doc));
+                doc.text = marked(doc.text)
+                blogUtils.writeFileWithTemplate(
+                    getPostFilename(database, documentId)+'foo.html',
+                    'post',
+                    doc
+                )
             } else {
                 deletePost(database, documentId);
             }
@@ -135,13 +131,10 @@ function generateUserPostIndex(user) {
                     && row.doc.state === 'published';
             });
 
-            fs.writeFile(
+            blogUtils.writeFileWithTemplate(
                 'output/' + user.database + '/index.html',
-                publishedPostDocuments.map(
-                    function(post) {
-                        return '<a href="' + post.doc._id + '.html">' + post.doc.title + '</a>';
-                    }
-                ).join('<br>')
+                'post_list',
+                {posts: publishedPostDocuments}
             );
         }
     );

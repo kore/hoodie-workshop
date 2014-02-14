@@ -1,5 +1,6 @@
 var path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    handlebars = require('handlebars');
 
 /**
  * Recursively creates a directory.
@@ -35,6 +36,15 @@ exports.deleteFile = function(pathToFile) {
  * @param template template to use
  * @param data data to use
  */
-exports.writeFileWithTemplate = function(pathToFile, template, data) {
+exports.writeFileWithTemplate = function(pathToFile, templateFile, data) {
+    var template = handlebars.compile(
+        fs.readFileSync(
+            'templates/' + templateFile + '.html',
+            {
+                encoding: 'utf8'
+            }
+        )
+    );
 
+    fs.writeFile(pathToFile, template(data));
 };

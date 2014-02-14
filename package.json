@@ -6,7 +6,8 @@
     "hoodie-server": "0.9.12",
     "hoodie-plugin-appconfig": "~0.1.0",
     "hoodie-plugin-email": "~0.1.4",
-    "hoodie-plugin-users": "0.0.9"
+    "hoodie-plugin-users": "0.0.9",
+    "handlebars": "~2.0.0-alpha.1"
   },
   "subdomain": "hoodie-jsdays-test",
   "domains": [
