@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "type": "app",
   "dependencies": {
-    "hoodie-app": "git://github.com/hoodiehq/hoodie-server.git",
-    "hoodie-worker-users": "git://github.com/hoodiehq/worker-users.git",
-    "marked": "*",
-    "follow": "*",
-    "request": "*",
-    "underscore": "*"
+    "hoodie-server": "0.9.12",
+    "hoodie-plugin-appconfig": "~0.1.0",
+    "hoodie-plugin-email": "~0.1.4",
+    "hoodie-plugin-users": "0.0.9"
   },
   "subdomain": "hoodie-jsdays-test",
   "domains": [
@@ -16,6 +14,13 @@
     "couch.hoodie-jsdays-test.jit.su"
   ],
   "scripts": {
-    "start": "node node_modules/hoodie-app/bin/start"
+    "start": "node node_modules/hoodie-server/bin/start"
+  },
+  "hoodie": {
+    "plugins": [
+      "hoodie-plugin-appconfig",
+      "hoodie-plugin-email",
+      "hoodie-plugin-users"
+    ]
   }
 }
