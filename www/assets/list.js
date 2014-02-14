@@ -1,35 +1,48 @@
 var Workshop = Workshop || {};
-Workshop.List = function() {};
-
-Workshop.List.clear = function() {
-    $('#blogPostList').html('');
-};
-
-Workshop.List.appendPost = function(post) {
-    var stateMap = {
+Workshop.List = function() {
+    this.posts = [];
+    this.stateMap = {
         editing: "pencil",
         published: "ok",
         archived: "off",
-    }
+    };
+};
 
-    listItem = $('#blogPostList').prepend('<li>' +
-        '<i class="icon icon-' + stateMap[post.state] + '"></i>' +
-        ' <a class="edit" data-id="' + post.id + '" href="#">' + post.title + '</a> ' +
-        ' at ' + post.createdAt +
-        ' <button class="btn btn-mini btn-danger" data-id="' + post.id + '"><i class="icon icon-remove"></i></a>' +
-    '</li>');
+Workshop.List.prototype.clear = function() {
+    this.posts = [];
+    this.render();
+};
 
-    $(listItem).find("a").unbind("click").bind("click", function (event) {
-        hoodie.store.find("post", String($(event.target).data("id"))).done(Workshop.Form.setValues);
+Workshop.List.prototype.appendPost = function(post) {
+    this.posts.push(post);
+    console.log(this.posts);
+    this.render();
+};
 
-        event.preventDefault();
-        return false;
+Workshop.List.prototype.render = function(post) {
+    var stateMap = this.stateMap;
+    this.posts.forEach(function (post) {
+        post.stateIcon = stateMap[post.state];
     });
 
-    $(listItem).find("button").unbind("click").bind("click", function (event) {
-        hoodie.store.remove("post", String($(event.target).data("id"))).done(refreshList);
+    Workshop.Template.render(
+        '#blogPostList',
+        '/template/blogPosts.html',
+        {"posts": this.posts},
+        function () {
+            $('#blogPostList').find("a").unbind("click").bind("click", function (event) {
+                hoodie.store.find("post", String($(event.target).data("id"))).done(Workshop.Form.setValues);
 
-        event.preventDefault();
-        return false;
-    });
+                event.preventDefault();
+                return false;
+            });
+
+            $('#blogPostList').find("button").unbind("click").bind("click", function (event) {
+                hoodie.store.remove("post", String($(event.target).data("id"))).done(refreshList);
+
+                event.preventDefault();
+                return false;
+            });
+        }
+    );
 }
