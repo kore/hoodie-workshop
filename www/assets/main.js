@@ -21,16 +21,15 @@ hoodie.store.on('add:post', function(post) {
 });
 
 // Clear post list when the get wiped from store
-hoodie.account.on('signin reauthenticated', Workshop.Form.activate);
+hoodie.account.on('signin reauthenticated', function() {
+    Workshop.Form.activate();
+});
 
-hoodie.account.on(
-    'signout',
-    function() {
-        list.clear();
-        Workshop.Form.clear();
-        Workshop.Form.deactivate();
-    }
-);
+hoodie.account.on('signout', function() {
+    list.clear();
+    Workshop.Form.clear();
+    Workshop.Form.deactivate();
+});
 
 // Handle creating a new post
 $('#blogPostForm').on('submit', function(event) {
