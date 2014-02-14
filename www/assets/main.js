@@ -1,19 +1,24 @@
 // Initialize Hoodie
-var hoodie  = new Hoodie();
+var hoodie = new Hoodie(),
+    list = new Workshop.List();
 
 // Initial load of all todo items from the store
 function refreshList() {
     hoodie.store.findAll('post').then( function(posts) {
-        Workshop.List.clear();
+        list.clear();
         posts.sort(function(a, b) {
             return a.createdAt > b.createdAt;
-        }).forEach(Workshop.List.appendPost);
+        }).forEach(function (post) {
+            list.appendPost(post);
+        });
     });
 }
 refreshList();
 
 // When a new todo gets stored, add it to the UI
-hoodie.store.on('add:post', Workshop.List.appendPost)
+hoodie.store.on('add:post', function(post) {
+    list.appendPost(post);
+});
 
 // Clear post list when the get wiped from store
 hoodie.account.on('signin reauthenticated', Workshop.Form.activate);
@@ -21,7 +26,7 @@ hoodie.account.on('signin reauthenticated', Workshop.Form.activate);
 hoodie.account.on(
     'signout',
     function() {
-        Workshop.List.clear();
+        list.clear();
         Workshop.Form.clear();
         Workshop.Form.deactivate();
     }
