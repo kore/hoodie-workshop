@@ -295,7 +295,7 @@ hoodie.task.start(
 );
 […]
 hoodie.task.on(
-    'success:message',
+    'message:success',
     function (completedMessageTask, options) {}
 );
         </code>
@@ -307,17 +307,16 @@ hoodie.task.on(
         <code data-trim contenteditable>
 module.exports = function (hoodie, doneCallback) {
 
-    hoodie.task.on('add:email', handleNewEmail)
+    hoodie.task.on('message:add', handleNewMessage)
 
-    function handleNewEmail(dbName, email) {
-        hoodie.sendEmail(email, function (error) {
-            if (error) {
-                hoodie.task.error(dbName, email, error);
-                return;
-            }
+    function handleNewMessage(dbName, message) {
+        // Do something with the message…
 
-            hoodie.task.success(dbName, email);
-        })
+        if (error) {
+            return hoodie.task.error(dbName, message, error);
+        }
+
+        hoodie.task.success(dbName, message);
     }
 
     doneCallback();
