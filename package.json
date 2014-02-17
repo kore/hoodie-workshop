@@ -8,7 +8,6 @@
     "handlebars": "~2.0.0-alpha.1",
     "hoodie-plugin-email": "~0.1.1",
     "hoodie-plugin-users": "0.1.0",
-    "hoodie-plugin-game": "https://github.com/kore/hoodie-plugin-game/tarball/master",
     "handlebars": "1.3.0"
   },
   "subdomain": "hoodie-jsdays-test",
@@ -23,7 +22,6 @@
     "plugins": [
       "hoodie-plugin-appconfig",
       "hoodie-plugin-email",
-      "hoodie-plugin-game",
       "hoodie-plugin-users"
     ]
   }
