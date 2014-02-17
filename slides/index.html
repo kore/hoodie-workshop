@@ -280,6 +280,31 @@ app.store.add("blogpost", {
 * Tasks gets synced to the CouchDB
 * Node.JS worker listens on new tasks
 </section>
+
+<section>
+    <h2>Hood.ie Plugin Registration</h2>
+    <ul>
+        <li>Conatined under <code>node_modules/hoodie-plugin-&lt;name&gt;</code></li>
+        <li>Register in global <code>package.json</code> under <code>hoodie.plugins</code></li>
+    </ul>
+</section>
+
+<section>
+    <h2>Structure</h2>
+    <pre>
+        <code data-trim contenteditable>
+hoodie-plugin-&lt;name&gt;
+    hoodie.&lt;name&gt;.js
+    worker.js
+    /pocket
+        index.html
+        styles.css
+        main.js
+    package.json
+        </code>
+    </pre>
+</section>
+
 <section>
     <h2>Create new Task</h2>
     <pre>
@@ -291,7 +316,9 @@ hoodie.task.start(
         text: 'Party machen?'
     }
 );
-[…]
+
+// […]
+
 hoodie.task.on(
     'message:success',
     function (completedMessageTask, options) {}
@@ -299,6 +326,7 @@ hoodie.task.on(
         </code>
     </pre>
 </section>
+
 <section>
     <h2>Mail Worker</h2>
     <pre>
