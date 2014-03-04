@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [ -z "$1" ] ; then
-    echo "Usage: $0 <couchDBUrl>"
-    exit 64
-fi
-
-curl -X PUT "$1/hoodie-plugin-game/config%2Fgame" --data '{"game_achievements":{"blogger":{"achievement_name":"Blogger","badge_src":"badge/blogger.png","amount_needed":"1"}},"game_levels":{"0":{"level_name":"Level 0","points_needed":0},"1":{"level_name":"Advanced Blogger","points_needed":"2"}},"type":"config","createdAt":"2014-02-14T13:05:45.060Z"}'
-
