@@ -1,0 +1,4 @@
+#!/bin/bash
+cd html_exporter/
+firefox output/index.html
+COUCH_PORT=6003 COUCH_ADMIN_PASS="password" node server.js
