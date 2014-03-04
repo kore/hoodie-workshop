@@ -44,7 +44,6 @@
         Kore Nordmann (<a href="http://twitter.com/koredn">@koredn</a>)
     </p>
     <img src="images/javascript-days-logo.png" style="border: 0px; background: none; box-shadow: 0 0 0px; padding-top: 2em;">
-    <p style="font-size: small"><a href="https://github.com/kore/hoodie-workshop">(Better looking) Slides and Examples can be found at https://github.com/kore/hoodie-workshop</a></p>
 </section>
 
 <section>
@@ -205,6 +204,7 @@ app.store.add("blogpost", {
 * Client side JavaScript works
 * Server works
 * Installation is trivial
+* Server-Side module API
 </section>
 
 <section data-markdown>
@@ -212,7 +212,6 @@ app.store.add("blogpost", {
 
 * No partial replication support (yet)
 * No native support for client side "views"
-* Server side module interface not ready
 </section>
 
 <section data-markdown>
@@ -264,7 +263,7 @@ app.store.add("blogpost", {
 ## Extending the backend
 
 * A task based plugin API is availbale
-* Directly accessing the CouchDB is possible
+* Directly accessing CouchDB is possible
   * And it is not even a bad practice
 </section>
 
@@ -277,8 +276,8 @@ app.store.add("blogpost", {
 ## Hood.ie Plugin Architecture
 
 * Frontend creates a "Task"
-* Tasks gets synced to the CouchDB
-* Node.JS worker listens on new tasks
+* Tasks gets synced to CouchDB
+* Node.JS worker listens for new tasks
 </section>
 
 <section>
