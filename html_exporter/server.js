@@ -6,11 +6,18 @@ var marked = require('marked'),
 // create the output directory
 blogUtils.mkdirRecursive('output/user');
 
-var couchAdminPass = 'admin';
+var couchAdminPass = 'admin',
+    couchPort = '5984';
+
 if(process.env.COUCH_ADMIN_PASS) {
     couchAdminPass = process.env.COUCH_ADMIN_PASS;
 }
-var couchUrl = 'http://admin:' + couchAdminPass + '@localhost:5984';
+
+if(process.env.COUCH_PORT) {
+    couchPort = process.env.COUCH_PORT;
+}
+
+var couchUrl = 'http://admin:' + couchAdminPass + '@localhost:' + couchPort;
 request(couchUrl + '/_users/_all_docs?include_docs=true', function (error, response, body) {
     var users = JSON.parse(body).rows.map(function(row) {
          return row.doc;
